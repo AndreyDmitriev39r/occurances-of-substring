@@ -19,38 +19,32 @@ const addWeights = (twoDarray) => {
 }
 
 const countCombos = (threeDArray) => {
-  
   for (let i = 1; i < threeDArray.length; i++) {
     //console.log(threeDArray[i], threeDArray[i - 1]);
     for (nextChar of threeDArray[i]) {
       for (prevoiusChar of threeDArray[i - 1]) {
-        
+        //console.log(nextChar, prevoiusChar);
+        if (nextChar[0] > prevoiusChar[0]) {
+          nextChar[1] += prevoiusChar[1]
+        }
       }
     }
   }
-  
+  return threeDArray[threeDArray.length - 1].reduce(
+    (combos, lastCharWeight) => combos + lastCharWeight[1], 0
+    )
 }
 
-const needle0 = "ABC"
-const haystack0 = "xxBCxxAxCxxBxCBxAxCB"
 
-structure = representIndices(needle0, haystack0)
+const occurancesOfSubstring = (needle, haystack) => {
+  arrayOfOccurances = representIndices(needle, haystack);
+  //console.log(arrayOfOccurances);
+  addWeights(arrayOfOccurances);
+  //console.log(arrayOfOccurances);
+  return countCombos(arrayOfOccurances);
+}
 
-addWeights(structure);
 
-//console.log(structure);
-
-/*
-Output:
-
-[
-  [ [ 6, 1 ], [ 16, 1 ] ],
-  [ [ 2, 0 ], [ 11, 0 ], [ 14, 0 ], [ 19, 0 ] ],
-  [ [ 3, 0 ], [ 8, 0 ], [ 13, 0 ], [ 18, 0 ] ]
-]
-*/
-
-console.log(countCombos(structure));
 
 
 

@@ -1,81 +1,57 @@
-//UNIT2
-const indexesOfSubstringCharacters = (substring, sequence) => {
-    let result = {};
-    for (let i = 0; i < substring.length; i++) {
-      for (let j = 0; j < sequence.length; j++) {
-        if (substring[i] === sequence[j]) {
-          result[j] = substring[i];
-        }
-      }
-    }
-    return result;
-}
-
-//UNIT3
-const cutTheTails = (obj, substring) => {
-    const entriesFromStart = Object.entries(obj);
-    let entry = 0;
-    
-    while (entriesFromStart[entry][1] !== substring[0]) {
-      delete obj[entriesFromStart[entry][0]];
-      entry++;
-    }
-    
-    const entriesFromEnd = Object.entries(obj).reverse()
-    entry = 0;
-    while (entriesFromEnd[entry][1] !== substring[substring.length - 1]) {
-      delete obj[entriesFromEnd[entry][0]];
-      entry++;
-    }
-    
-}
-
-//UNIT4
-const sortBySubstringStructure = (obj, substring) => {
-  const keys = Object.keys(obj);
-  let resultArray = []
-  for (let i = 0; i < substring.length; i++) {
-    resultArray.push([]);
-    for (let key of keys) {
-      if (obj[key] === substring[i]) {
-        resultArray[i].push([substring[i], key])
+const representIndices = (needle, haystack) => {
+  let arrayOfIndices = []
+  for (let i = 0; i < needle.length; i++) {
+    arrayOfIndices.push([]);
+    for (let j = 0; j < haystack.length; j++) {
+      if (needle[i] === haystack[j]) {
+        arrayOfIndices[i].push(j)
       }
     }
   }
-  return resultArray;
+  return arrayOfIndices;
 }
 
-const numberOfOccurances = (arr, str) => {
-  let result = 0;
-  for (let i = 1; i < arr.length; i++) {
-    let counter = 0;
-    for (let elem of arr[i]) {
-      for (let prevElem of arr[i - 1]) {
-        if (Number(elem[1]) > Number(prevElem[1])){
-          counter++;
-        }
+const addWeights = (twoDarray) => {
+  twoDarray[0] = twoDarray[0].map(index => [index, 1]);
+  for (let i = 1; i < twoDarray.length; i++) {
+    twoDarray[i] = twoDarray[i].map(index => [index, 0]);
+  }
+}
+
+const countCombos = (threeDArray) => {
+  
+  for (let i = 1; i < threeDArray.length; i++) {
+    //console.log(threeDArray[i], threeDArray[i - 1]);
+    for (nextChar of threeDArray[i]) {
+      for (prevoiusChar of threeDArray[i - 1]) {
+        
       }
     }
-    if (result === 0) {result += counter;}
-    else {result *= counter;}
   }
-  return result;
-}
-
-//MAIN UNIT
-const occurancesOfSubstring = (substring, sequence) => {
-
-  //process string into object using UNIT2 and UNIT 3
-  let relevantCharacters = indexesOfSubstringCharacters(substring, sequence);
-  cutTheTails(relevantCharacters, substring);
-
-  //represent object as 3D array using UNIT4
-  let arrayOfSortedCharacters = sortBySubstringStructure(relevantCharacters, substring);
-  
-  //get result using UNIT5
-  return numberOfOccurances(arrayOfSortedCharacters, substring)
   
 }
+
+const needle0 = "ABC"
+const haystack0 = "xxBCxxAxCxxBxCBxAxCB"
+
+structure = representIndices(needle0, haystack0)
+
+addWeights(structure);
+
+//console.log(structure);
+
+/*
+Output:
+
+[
+  [ [ 6, 1 ], [ 16, 1 ] ],
+  [ [ 2, 0 ], [ 11, 0 ], [ 14, 0 ], [ 19, 0 ] ],
+  [ [ 3, 0 ], [ 8, 0 ], [ 13, 0 ], [ 18, 0 ] ]
+]
+*/
+
+console.log(countCombos(structure));
+
 
 
 
